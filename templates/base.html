@@ -1,0 +1,57 @@
+<html lang = "en">
+   <head>
+      
+      <link rel = "stylesheet" href = "https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+      <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+      <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+      <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+      <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+      <script src = "https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+      <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.13.1/TweenMax.min.js"></script>
+      <script src="{{ url_for('static', filename='js/ui-bootstrap-tpls-0.11.0.min.js') }}"></script>
+      <script src="http://code.createjs.com/preloadjs-0.4.1.min.js"></script>
+      <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+      <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+      <style>
+         .box {         
+            color:white;
+            padding:10px;
+            text-align:center;
+            border-style: inset;
+         }
+         
+         .green {
+            background:green;
+         }
+         
+         .blue {
+            background:blue;
+         }
+      </style>
+      
+      <script language = "javascript">
+         var slides = [];
+         {% for photo in photos %}
+           slides.push({id:"{{photo.id}}", src:"{{photo.src}}?access_token={{creds}}"});
+         {% endfor %}
+         debugger;
+         // app.module('AlbumApp')
+      </script>      
+   </head>
+   
+   <body ng-controller= "MainCtrl" onload="init()" slides="slides" ng-app="AlbumApp" ng-init="slides=slides"> 
+        {% raw %}
+        <img ng-show="loaded" bg-image class="fullBg {{currentAnimation}}" ng-repeat="slide in slides"
+             ng-if="isCurrentSlideIndex($index)"
+             ng-src="{{slide.src}}">
+        {% endraw %}
+        <ul ng-show="loaded" class="nav nav-pills">
+            <li ng-class="{'active':isCurrentAnimation('slide-left-animation')}"><a ng-click="setCurrentAnimation('slide-left-animation')">LEFT</a></li>
+            <li ng-class="{'active':isCurrentAnimation('slide-down-animation')}"><a ng-click="setCurrentAnimation('slide-down-animation')">DOWN</a></li>
+            <li ng-class="{'active':isCurrentAnimation('fade-in-animation')}"><a ng-click="setCurrentAnimation('fade-in-animation')">FADE</a></li>
+        </ul>
+   </body>
+</html>

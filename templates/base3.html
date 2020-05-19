@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+      <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+    </head>
+    <body onload="init()">
+      <div class="container-fluid">
+        <div class="row content">
+          <div class="col-md-9">
+            <div id="demo" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">{% set count = 0 %} 
+              {% for photo in photos %}
+                <div class="carousel-item{% if loop.index == 1 %} active{% endif %}">
+                  <img class="img-fluid" src="{{ photo.baseUrl }}=w2560-h1080" />
+                </div>{% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="datetime">
+              <h3 id="date"></h3>
+              <h3 id="time"></h3>
+            </div>
+            <hr/>
+            <div class="events" title="Calendar">
+              <h4>Calendar</h4>
+              {% for item in events["items"] %}
+              <div class="item" >
+                {%if item.start.date is defined %}
+                {{ item.start.date }}:
+                {% endif %}
+                {% if item.start.dateTime is defined %}
+                {{ Formatter.formatDate(item.start.dateTime) }}:
+                {% endif %}
+                {{ item.summary }}
+              </div>
+              <hr/>{% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  </html>

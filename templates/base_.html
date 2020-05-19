@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+	  
+</head>
+<body>
+  <div id="demo" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+    {% i = 0%} 
+    {% for photo in photos %}
+      {% if i == 0 %}
+      <div class="carousel-item active"><img src="{{ photo.baseUrl }}=w1280-h1024" /></div>
+      {% else %}
+      <div class="carousel-item"><img src="{{ photo.baseUrl }}=w1280-h1024" /></div>
+      {% endif %}    
+      {% i = i + 1 %}
+    {% endfor %}
+    </div>
+  </div>
+    
+
+{% block content %}
+
+{% endblock %}
+</body>
+</script>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Document</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script src="{{ url_for('static', filename='js/util.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/plotly-latest.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/swiper.css') }}" />
+
+</head>
+<body onload="init()">
+  <div id="demo" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+    {% set count = 0 %} 
+    {% for photo in photos %}
+      <div class="carousel-item{% if loop.index == 1 %} active{% endif %}">
+        <img class="img-fluid" src="{{ photo.baseUrl }}=w2560-h1080" />
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+  <div id="graph-0"></div>
+  <div class="events" >
+    <div class="right">
+      <h3 id="date"></h3>
+      <h3 id="time"></h3>
+    </div>
+    <div class="right">
+     {% for item in events["items"] %}
+    {#   <dt> #}
+        {%if item.start.date is defined %}
+        {{ Formatter.formatDate(item.start.date) }}:
+        {% endif %}
+        {% if item.start.dateTime is defined %}
+        {{ Formatter.formatDate(item.start.dateTime) }}:
+        {% endif %}
+      {# </dt>
+      <dl> #}
+        {{ item.summary }}
+      {# </dl> #}
+      <hr/>
+     {% endfor %}
+   </div>
+  </div>
+
+{% block content %}
+
+{% endblock %}
+<script type="text/javascript">
+    var graph = {{weathers | safe}};
+    Plotly.plot("graph-0", graph.data, graph.layout);
+  </script>
+</body>
+</html>
